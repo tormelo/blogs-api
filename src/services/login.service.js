@@ -16,5 +16,5 @@ module.exports = async (loginInfo) => {
 
   const token = createToken(user.email);
 
-  return { type: '', message: token };
+  return { type: '', message: { token } };
 };

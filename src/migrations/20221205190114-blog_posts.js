@@ -38,5 +38,5 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface) => queryInterface.dropTable("blog_posts"),
+  down: async (queryInterface) => queryInterface.dropTable('blog_posts'),
 };

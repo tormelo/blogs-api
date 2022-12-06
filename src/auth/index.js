@@ -6,8 +6,8 @@ const config = {
   expiresIn: '1h',
 };
 
-const createToken = (email) => {
-  const token = jwt.sign({ email }, secret, config);
+const createToken = (payload) => {
+  const token = jwt.sign(payload, secret, config);
   return token;
 };
 

@@ -7,10 +7,13 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Token not found' });
   }
 
-  const { isInvalid } = verifyToken(token);
+  const payload = verifyToken(token);
+  const { isInvalid } = payload;
   if (isInvalid) {
     return res.status(401).json({ message: 'Expired or invalid token' });
   }
   
+  req.user = payload;
+
   return next();
 };

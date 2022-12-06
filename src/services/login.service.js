@@ -14,7 +14,12 @@ const login = async (loginInfo) => {
     return { type: 'INVALID_FIELD', message: 'Invalid fields' };
   }
 
-  const token = createToken(user.email);
+  const payload = {
+    id: user.id,
+    email: user.email,
+  };
+
+  const token = createToken(payload);
 
   return { type: null, message: { token } };
 };

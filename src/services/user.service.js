@@ -8,7 +8,12 @@ const register = async (userInfo) => {
 
   const newUser = await User.create(userInfo);
 
-  const token = createToken(newUser.email);
+  const payload = {
+    id: newUser.null,
+    email: newUser.email,
+  };
+
+  const token = createToken(payload);
 
   return { type: null, message: { token } };
 };

@@ -9,6 +9,14 @@ const register = async (req, res) => {
   res.status(201).json(message);
 };
 
+const selfDestruct = async (req, res) => {
+  const { id: userId } = req.user;
+
+  await userService.selfDestruct(userId);
+
+  res.status(204).send();
+};
+
 const getAll = async (req, res) => {
   const users = await userService.getAll();
   res.status(200).json(users);
@@ -25,6 +33,7 @@ const getById = async (req, res) => {
 
 module.exports = { 
   register,
+  selfDestruct,
   getAll,
   getById,
 };

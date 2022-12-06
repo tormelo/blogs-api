@@ -9,6 +9,12 @@ router.post(
   userController.register,
 );
 
+router.delete(
+  '/me',
+  validateToken,
+  userController.selfDestruct,
+);
+
 router.get(
   '/:id',
   validateToken,

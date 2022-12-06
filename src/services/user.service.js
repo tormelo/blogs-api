@@ -18,6 +18,11 @@ const register = async (userInfo) => {
   return { type: null, message: { token } };
 };
 
+const selfDestruct = async (userId) => {
+  await User.destroy({ where: { id: userId } });
+  // return { type: null, message: '' };
+};
+
 const getAll = async () => {
   const users = await User.findAll({ attributes: { exclude: ['password'] } });
   return users;
@@ -33,6 +38,7 @@ const getById = async (id) => {
 
 module.exports = { 
   register, 
+  selfDestruct,
   getAll,
   getById,
 };

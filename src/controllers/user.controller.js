@@ -9,4 +9,12 @@ const register = async (req, res) => {
   res.status(201).json(message);
 };
 
-module.exports = { register };
+const getAll = async (req, res) => {
+  const users = await userService.getAll();
+  res.status(200).json(users);
+};
+
+module.exports = { 
+  register,
+  getAll,
+};

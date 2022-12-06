@@ -1,4 +1,4 @@
-const { userSchema } = require('./schemas');
+const { userSchema, categorySchema } = require('./schemas');
 const { User } = require('../../models');
 
 const validateNewUserEmail = async (email) => {
@@ -28,4 +28,18 @@ const validateNewUser = async (userInfo) => {
   return { type: null, message: '' };
 };
 
-module.exports = { validateNewUser };
+const validateNewCategory = async (category) => {
+  const { error } = categorySchema.validate(category);
+
+  if (error) { 
+    const { message } = error;
+    return { type: 'INVALID_FIELD', message }; 
+  }
+
+  return { type: null, message: '' };
+};
+
+module.exports = { 
+  validateNewUser, 
+   validateNewCategory,
+};

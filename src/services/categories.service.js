@@ -1,7 +1,4 @@
-// const { createToken } = require('../auth');
 const { Category } = require('../models');
-// const { validateNewUser } = require('./validations/inputValidations');
-
 const { validateNewCategory } = require('./validations/inputValidations');
 
 const register = async (category) => {
@@ -19,6 +16,12 @@ const register = async (category) => {
   };
 };
 
+const getAll = async () => {
+  const categories = await Category.findAll();
+  return categories;
+};
+
 module.exports = { 
   register, 
+  getAll,
 };

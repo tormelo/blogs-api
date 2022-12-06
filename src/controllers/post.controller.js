@@ -23,6 +23,17 @@ const update = async (req, res) => {
   res.status(200).json(message);
 };
 
+const remove = async (req, res) => {
+  const { id: postId } = req.params;
+  const { id: userId } = req.user;
+
+  const { type, message } = await postService.remove(postId, userId);
+
+  if (type) return res.status(mapError(type)).json({ message });
+
+  res.status(204).send();
+};
+
 const getAll = async (req, res) => {
   const posts = await postService.getAll();
   res.status(200).json(posts);
@@ -40,6 +51,7 @@ const getById = async (req, res) => {
 module.exports = { 
   register,
   update,
+  remove,
   getAll,
   getById,
 };

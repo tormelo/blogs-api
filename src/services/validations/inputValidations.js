@@ -76,7 +76,7 @@ const validatePostUpdateData = (updateData) => {
   }
 };
 
-const validatePostUpdateAuth = async (postId, userId) => {
+const validatePostAuth = async (postId, userId) => {
   const post = await BlogPost.findByPk(postId);
 
   if (!post) {
@@ -92,7 +92,7 @@ const validatePostUpdate = async (postId, userId, updateData) => {
   const dataError = validatePostUpdateData(updateData);
   if (dataError) return dataError;
 
-  const authError = await validatePostUpdateAuth(postId, userId);
+  const authError = await validatePostAuth(postId, userId);
   if (authError) return authError;
 
   return { type: null, message: '' };
@@ -103,4 +103,5 @@ module.exports = {
    validateNewCategory,
    validateNewPost,
    validatePostUpdate,
+   validatePostAuth,
 };

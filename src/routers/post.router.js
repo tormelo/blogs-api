@@ -17,6 +17,12 @@ router.put(
   postController.update,
 );
 
+router.delete(
+  '/:id',
+  validateToken,
+  postController.remove,
+);
+
 router.get(
   '/:id',
   validateToken,

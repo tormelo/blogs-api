@@ -1,5 +1,9 @@
 const { BlogPost, PostCategory, User, Category } = require('../models');
-const { validateNewPost, validatePostUpdate } = require('./validations/inputValidations');
+const { 
+  validateNewPost, 
+  validatePostUpdate, 
+  validatePostAuth, 
+} = require('./validations/inputValidations');
 
 const register = async (blogPost) => {
   const error = await validateNewPost(blogPost);
@@ -38,6 +42,18 @@ const update = async (postId, userId, updateData) => {
   };
 };
 
+const remove = async (postId, userId) => {
+  const error = await validatePostAuth(postId, userId);
+  if (error) return error;
+
+  await BlogPost.destroy({ where: { id: postId } });
+
+  return { 
+    type: null, 
+    message: '', 
+  };
+};
+
 const getAll = async () => {
   const posts = await BlogPost.findAll({ 
     include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, 
@@ -60,6 +76,7 @@ const getById = async (id) => {
 module.exports = { 
   register,
   update,
+  remove,
   getAll,
   getById,
 };

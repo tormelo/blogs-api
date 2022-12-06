@@ -3,6 +3,7 @@ const {
   loginRouter, 
   userRouter, 
   categoriesRouter,
+  postRouter,
  } = require('./routers');
 
 // ...
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/categories', categoriesRouter);
+app.use('/post', postRouter);
 
 // ...
 

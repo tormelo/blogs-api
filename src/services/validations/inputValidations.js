@@ -1,5 +1,5 @@
-const { userSchema, categorySchema, postSchema } = require('./schemas');
-const { User, Category } = require('../../models');
+const { userSchema, categorySchema, postSchema, updatePostSchema } = require('./schemas');
+const { User, Category, BlogPost } = require('../../models');
 
 const validateNewUserInfo = (userInfo) => {
   const { error } = userSchema.validate(userInfo);
@@ -68,8 +68,39 @@ const validateNewPost = async (post) => {
   return { type: null, message: '' };
 };
 
+const validatePostUpdateData = (updateData) => {
+  const { error } = updatePostSchema.validate(updateData);
+
+  if (error) { 
+    return { type: 'INVALID_FIELD', message: 'Some required fields are missing' }; 
+  }
+};
+
+const validatePostUpdateAuth = async (postId, userId) => {
+  const post = await BlogPost.findByPk(postId);
+
+  if (!post) {
+    return { type: 'NOT_FOUND', message: 'Post does not exist' };
+  }
+
+  if (post.userId !== userId) {
+    return { type: 'UNAUTHORIZED', message: 'Unauthorized user' }; 
+  } 
+};
+
+const validatePostUpdate = async (postId, userId, updateData) => {
+  const dataError = validatePostUpdateData(updateData);
+  if (dataError) return dataError;
+
+  const authError = await validatePostUpdateAuth(postId, userId);
+  if (authError) return authError;
+
+  return { type: null, message: '' };
+};
+
 module.exports = { 
   validateNewUser, 
    validateNewCategory,
    validateNewPost,
+   validatePostUpdate,
 };

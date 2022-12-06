@@ -12,6 +12,12 @@ router.post(
 );
 
 router.get(
+  '/:id',
+  validateToken,
+  postController.getById,
+);
+
+router.get(
   '/',
   validateToken,
   postController.getAll,

@@ -48,10 +48,18 @@ const getById = async (req, res) => {
   res.status(200).json(message);
 };
 
+const getByQuery = async (req, res) => {
+  const { q } = req.query;
+  const { message } = await postService.getByQuery(q);
+
+  res.status(200).json(message);
+};
+
 module.exports = { 
   register,
   update,
   remove,
   getAll,
   getById,
+  getByQuery,
 };

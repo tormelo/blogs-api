@@ -24,15 +24,21 @@ router.delete(
 );
 
 router.get(
-  '/:id',
+  '/search',
   validateToken,
-  postController.getById,
+  postController.getByQuery,
 );
 
 router.get(
   '/',
   validateToken,
   postController.getAll,
+);
+
+router.get(
+  '/:id',
+  validateToken,
+  postController.getById,
 );
 
 module.exports = router;

@@ -11,4 +11,15 @@ const categorySchema = Joi.object({
   name: Joi.string().required(),
 });
 
-module.exports = { userSchema, categorySchema };
+const postSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  userId: Joi.number().integer().required(),
+  categoryIds: Joi.array().items(Joi.number().integer()).required(),
+});
+
+module.exports = { 
+  userSchema, 
+  categorySchema, 
+   postSchema,
+};

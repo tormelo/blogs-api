@@ -1,13 +1,5 @@
-const { userSchema, categorySchema } = require('./schemas');
-const { User } = require('../../models');
-
-const validateNewUserEmail = async (email) => {
-  const user = await User.findOne({ where: { email } });
-
-  if (user) {
-    return { type: 'ALREADY_IN_DB', message: 'User already registered' }; 
-  }
-};
+const { userSchema, categorySchema, postSchema } = require('./schemas');
+const { User, Category } = require('../../models');
 
 const validateNewUserInfo = (userInfo) => {
   const { error } = userSchema.validate(userInfo);
@@ -15,6 +7,14 @@ const validateNewUserInfo = (userInfo) => {
   if (error) { 
     const { message } = error;
     return { type: 'INVALID_FIELD', message }; 
+  }
+};
+
+const validateNewUserEmail = async (email) => {
+  const user = await User.findOne({ where: { email } });
+
+  if (user) {
+    return { type: 'ALREADY_IN_DB', message: 'User already registered' }; 
   }
 };
 
@@ -28,7 +28,7 @@ const validateNewUser = async (userInfo) => {
   return { type: null, message: '' };
 };
 
-const validateNewCategory = async (category) => {
+const validateNewCategory = (category) => {
   const { error } = categorySchema.validate(category);
 
   if (error) { 
@@ -39,7 +39,37 @@ const validateNewCategory = async (category) => {
   return { type: null, message: '' };
 };
 
+const validateNewPostData = (post) => {
+  const { error } = postSchema.validate(post);
+
+  if (error) { 
+    return { type: 'INVALID_FIELD', message: 'Some required fields are missing' }; 
+  }
+};
+
+const validateNewPostCategories = async (categories) => {
+  let notFound = false;
+
+  await Promise.all(categories.map(async (categoryId) => {
+    const category = await Category.findByPk(categoryId);
+    if (!category) notFound = true;
+  }));
+
+  if (notFound) return { type: 'INVALID_FIELD', message: 'one or more "categoryIds" not found' };
+};
+
+const validateNewPost = async (post) => {
+  const dataError = validateNewPostData(post);
+  if (dataError) return dataError;
+
+  const categoriesError = await validateNewPostCategories(post.categoryIds);
+  if (categoriesError) return categoriesError;
+
+  return { type: null, message: '' };
+};
+
 module.exports = { 
   validateNewUser, 
    validateNewCategory,
+   validateNewPost,
 };

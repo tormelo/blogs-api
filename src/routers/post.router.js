@@ -11,6 +11,12 @@ router.post(
   postController.register,
 );
 
+router.put(
+  '/:id',
+  validateToken,
+  postController.update,
+);
+
 router.get(
   '/:id',
   validateToken,

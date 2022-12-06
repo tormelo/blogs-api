@@ -1,5 +1,5 @@
 const { BlogPost, PostCategory, User, Category } = require('../models');
-const { validateNewPost } = require('./validations/inputValidations');
+const { validateNewPost, validatePostUpdate } = require('./validations/inputValidations');
 
 const register = async (blogPost) => {
   const error = await validateNewPost(blogPost);
@@ -18,6 +18,23 @@ const register = async (blogPost) => {
   return { 
     type: null, 
     message: newPost, 
+  };
+};
+
+const update = async (postId, userId, updateData) => {
+  const error = await validatePostUpdate(postId, userId, updateData);
+  if (error.type) return error;
+
+  await BlogPost.update(updateData, { where: { id: postId } });
+
+  const updatedPost = await await BlogPost.findByPk(postId, { 
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, 
+    { model: Category, as: 'categories', through: { attributes: [] } }], 
+  });
+
+  return { 
+    type: null, 
+    message: updatedPost, 
   };
 };
 
@@ -42,6 +59,7 @@ const getById = async (id) => {
 
 module.exports = { 
   register,
+  update,
   getAll,
   getById,
 };

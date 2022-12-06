@@ -12,6 +12,17 @@ const register = async (req, res) => {
   res.status(201).json(message);
 };
 
+const update = async (req, res) => {
+  const { id: postId } = req.params;
+  const { id: userId } = req.user;
+
+  const { type, message } = await postService.update(postId, userId, req.body);
+
+  if (type) return res.status(mapError(type)).json({ message });
+
+  res.status(200).json(message);
+};
+
 const getAll = async (req, res) => {
   const posts = await postService.getAll();
   res.status(200).json(posts);
@@ -28,6 +39,7 @@ const getById = async (req, res) => {
 
 module.exports = { 
   register,
+  update,
   getAll,
   getById,
 };

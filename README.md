@@ -70,22 +70,22 @@ Before running the project, make sure you have Docker and Docker Compose install
     ```
 8. The API will be accessible at `http://localhost:3000`.
 
-# API Endpoints
+## API Endpoints
 
-## Login
+### Login
 - **POST /login**: This is the user authentication endpoint. Here, you can obtain an authentication token by submitting your credentials.
 
-## Users
+### Users
 - **GET /user**: Retrieve information about all the users.
 - **GET /user/:id**: Retrieve information about a specific user identified by their ID.
 - **POST /user**: Register a new user by providing all the necessary information.
 - **DELETE /user/me**: Delete the account of the currently logged-in user.
 
-## Categories
+### Categories
 - **GET /categories**: Retrieve a list of categories from the database.
 - **POST /categories**: Add new categories to the database.
 
-## Posts
+### Posts
 - **GET /post**: Retrieve a list of posts from the database.
 - **GET /post/:id**: Retrieve information about a specific post identified by its unique ID.
 - **GET /post/search?q=query**: Search for posts based on a query.
